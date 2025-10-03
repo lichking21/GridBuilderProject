@@ -2,12 +2,23 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
-    [SerializeField] private Color baseColor;
-    [SerializeField] private Color darkColor;
-    [SerializeField] private SpriteRenderer sr;
+    [SerializeField] SpriteRenderer sr;
+    [SerializeField] GameObject highlightSprite;
+    [SerializeField] Color baseColor;
+    [SerializeField] Color offsetColor;
 
     public void Init(bool isOffset)
     {
-        sr.color = isOffset ? darkColor : baseColor;
+        sr.color = isOffset ? offsetColor : baseColor;
+    }
+
+    public void MouseCellEnter()
+    {
+        highlightSprite.SetActive(true);
+    }
+
+    public void MouseCellExit()
+    {
+        highlightSprite.SetActive(false);
     }
 }

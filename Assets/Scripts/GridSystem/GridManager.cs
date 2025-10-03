@@ -2,13 +2,12 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    [SerializeField] private Cell cell;
-    [SerializeField] private Transform cellsParent;
-    private Camera mainCam;
+    [SerializeField] GameObject cell;
+    [SerializeField] Transform cellsParent;
 
-    // grid size
     private int width = 16;
-    private int height = 16;
+    private int height = 9;
+    private float cellScale = 1f;
 
     private void CreateGrid()
     {
@@ -16,28 +15,25 @@ public class GridManager : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                var newCell = Instantiate(cell, new Vector3(x, y), Quaternion.identity, cellsParent);
+                Vector2 cellPos = new Vector2(x * cellScale, y * cellScale);
 
-                // isOffset = true if (x is even and y is odd ) or (x is odd and y is even)
-                // isOffset = false if (x and y both are even or odd) 
+                var newCell = Instantiate(cell, cellPos, Quaternion.identity, cellsParent);
+                newCell.name = $"[{x}, {y}]";
+
                 bool isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
-
-                newCell.name = $"Cell[{x},{y}]";
-                newCell.Init(isOffset);
+                newCell.GetComponent<Cell>().Init(isOffset);
             }
         }
 
-        // Center camera
-        mainCam.transform.position = new Vector3(
-            width / 2f - 0.5f,
-            height / 2f - 0.5f,
+        Camera.main.transform.position = new Vector3(
+            (float)width / 2 - 0.5f,
+            (float)height / 2 - 0.5f,
             -10f
         );
     }
 
-    public void InitCam(Camera cam)
+    void Start()
     {
-        mainCam = cam;
         CreateGrid();
     }
 }
