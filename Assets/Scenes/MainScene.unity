@@ -286,7 +286,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   building: {fileID: 2342316190541763245, guid: 51056a6a5dbc5d64f91639cfa47993ca, type: 3}
-  buildingPreview: {fileID: 1091223473715607593, guid: 304abc0f76cf9f14684ce7f2714c5268, type: 3}
+  buildingPreviewPrefab: {fileID: 1091223473715607593, guid: 304abc0f76cf9f14684ce7f2714c5268, type: 3}
+  inputs: {fileID: -944628639613478452, guid: 739e317faaa40944d9382357364a8433, type: 3}
 --- !u!4 &1733997321
 Transform:
   m_ObjectHideFlags: 0
