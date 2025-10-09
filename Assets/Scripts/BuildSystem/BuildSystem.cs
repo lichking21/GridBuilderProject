@@ -28,7 +28,7 @@ public class BuildSystem : MonoBehaviour
     private Vector2 currPreviewPos;
     private int cellStep = 1;
     private bool isUsingKeyboard;
-    private bool deleteBtn;
+    public bool deleteBtn;
     public bool placeBtn;
 
     // Events
@@ -120,7 +120,7 @@ public class BuildSystem : MonoBehaviour
     public void OnDeleteBtn()
     {
         deleteBtn = true;
-        buildingPreviewObj.SetActive(false);
+        if (buildingPreviewObj != null) buildingPreviewObj.SetActive(false);
 
         placeBtn = false;
         buildAction?.Disable();

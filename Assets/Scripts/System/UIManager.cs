@@ -7,7 +7,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button[] buildings;
     [SerializeField] private Button placeBtn;
     [SerializeField] private Button deleteBtn;
+
+    [SerializeField] private GameObject placeOverlay;
     [SerializeField] private GameObject buildingsPanel;
+    [SerializeField] private GameObject deleteOverlay;
 
     void Start()
     {
@@ -15,6 +18,23 @@ public class UIManager : MonoBehaviour
 
         if (BuildSystem.Instance == null)
             SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void Update()
+    {
+        if (BuildSystem.Instance == null)
+            return;
+
+        if (!BuildSystem.Instance.placeBtn && buildingsPanel.activeSelf)
+        {
+            buildingsPanel.SetActive(false);
+            placeOverlay.SetActive(false);
+        }
+
+        if (!BuildSystem.Instance.deleteBtn && deleteOverlay.activeSelf)
+        {
+            deleteOverlay.SetActive(false);
+        }
     }
 
     private void OnDestroy()
@@ -42,7 +62,7 @@ public class UIManager : MonoBehaviour
         if (buildings.Length > 0) buildings[2].onClick.AddListener(() => SelectBuilding(2));
 
         placeBtn.onClick.AddListener(() => PlaceBtn());
-        deleteBtn.onClick.AddListener(() => BuildSystem.Instance.OnDeleteBtn());
+        deleteBtn.onClick.AddListener(() => DeleteBtn());
 
         Debug.Log("ButtonListeners added");
     }
@@ -52,9 +72,20 @@ public class UIManager : MonoBehaviour
         BuildSystem.Instance.SwitchPlaceBtn();
 
         if (BuildSystem.Instance.placeBtn)
+        {
             buildingsPanel.SetActive(true);
-        else 
-            buildingsPanel.SetActive(false);
+            placeOverlay.SetActive(true);
+        }
+    }
+    
+    private void DeleteBtn()
+    {
+        BuildSystem.Instance.OnDeleteBtn();
+
+        if (BuildSystem.Instance.deleteBtn)
+        {
+            deleteOverlay.SetActive(true);
+        }
     }
 
     private void SelectBuilding(int idx)

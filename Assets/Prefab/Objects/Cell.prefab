@@ -136,8 +136,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sr: {fileID: 997563911042515989}
   highlightSprite: {fileID: 711770034737513520}
-  baseColor: {r: 0, g: 0.7490196, b: 1, a: 1}
-  offsetColor: {r: 0, g: 0.5907362, b: 0.78867924, a: 1}
+  baseColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
+  offsetColor: {r: 0, g: 0, b: 0, a: 1}
+  isEmpty: 0
+  currBuilding: {fileID: 0}
 --- !u!212 &997563911042515989
 SpriteRenderer:
   m_ObjectHideFlags: 0
