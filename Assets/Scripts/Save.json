@@ -1,0 +1,32 @@
+{
+    "buildings": [
+        {
+            "id": "Circle",
+            "position": {
+                "x": 18.0,
+                "y": 9.0
+            }
+        },
+        {
+            "id": "Circle",
+            "position": {
+                "x": 10.0,
+                "y": 5.0
+            }
+        },
+        {
+            "id": "Circle",
+            "position": {
+                "x": 16.0,
+                "y": 9.0
+            }
+        },
+        {
+            "id": "Circle",
+            "position": {
+                "x": 20.0,
+                "y": 9.0
+            }
+        }
+    ]
+}

@@ -7,10 +7,13 @@ public class SaveManager : MonoBehaviour
 {
     public static SaveManager Instance { get; private set; }
 
-    private string savePath = "Assets\\Scripts\\Saves.json";
+    private string savePath = "Assets\\Scripts\\Save.json";
 
     public void SaveAll(List<BuildingSaveData> buildings)
     {
+        if (!File.Exists(savePath))
+            File.Create(savePath);
+
         SaveWrapper wrapper = new SaveWrapper { buildings = buildings };
         string json = JsonUtility.ToJson(wrapper, true);
 
@@ -23,7 +26,7 @@ public class SaveManager : MonoBehaviour
         if (!File.Exists(savePath))
         {
             Debug.Log("There is no save file");
-            return new List<BuildingSaveData> { };
+            return new List<BuildingSaveData> {};
         }
 
         string json = File.ReadAllText(savePath);

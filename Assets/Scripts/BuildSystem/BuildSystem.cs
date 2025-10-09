@@ -90,18 +90,24 @@ public class BuildSystem : MonoBehaviour
     {
         if (currBuilding == null) return;
 
-        Vector2 placePos;
         Cell currCell = (mouseRay != null) ? mouseRay.GetMouseCell() : null;
+        if (currCell == null) return;
 
-        if (currCell != null && !isUsingKeyboard) placePos = currCell.transform.position;
-        else placePos = currPreviewPos;
+        if (!currCell.isEmpty)
+        {
+            Debug.Log($"Cell [{currCell}] is not empty");
+            return;
+        }
 
-        // if cell is free
-        Instantiate(
-            currBuilding,
-            placePos,
-            Quaternion.identity
-        );
+        Vector2 placePos;
+        if (!isUsingKeyboard)
+            placePos = currCell.transform.position;
+        else
+            placePos = currPreviewPos;
+
+        Building newBuilding = Instantiate(currBuilding, placePos, Quaternion.identity).GetComponent<Building>();
+        currCell.SetBuilding(newBuilding);
+        newBuilding.cell = currCell;
 
         BuildingSaveData data = new BuildingSaveData
         {
@@ -140,8 +146,6 @@ public class BuildSystem : MonoBehaviour
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             deleteBtn = false;
-            if (buildingPreviewObj != null)
-                buildingPreviewObj.SetActive(true);
         }
     }
 
@@ -172,7 +176,8 @@ public class BuildSystem : MonoBehaviour
         currBuilding = selectedBuilding.building;
         currPreviewPrefab = selectedBuilding.buildingPreview;
 
-        if (buildingPreviewObj != null) Destroy(buildingPreviewObj);
+        if (buildingPreviewObj != null) 
+            Destroy(buildingPreviewObj);
 
         if (currPreviewPrefab != null)
             buildingPreviewObj = Instantiate(
@@ -182,6 +187,13 @@ public class BuildSystem : MonoBehaviour
             );
 
         buildingPreviewObj.SetActive(true);
+
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            placeBtn = false;
+            if (buildingPreviewObj != null)
+                buildingPreviewObj.SetActive(false);
+        }
     }
 
     // Save - Load builgns
@@ -243,5 +255,17 @@ public class BuildSystem : MonoBehaviour
         // handle delete mode
         if (deleteBtn)
             DeleteBuilding();
+
+        // handle placement mode
+        if (placeBtn)
+        {
+            if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                placeBtn = false;
+                buildAction?.Disable();
+                if (buildingPreviewObj != null)
+                    buildingPreviewObj.SetActive(false);
+            }
+        }
     }
 }
