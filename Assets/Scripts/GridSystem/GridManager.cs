@@ -4,9 +4,10 @@ public class GridManager : MonoBehaviour
 {
     [SerializeField] GameObject cell;
     [SerializeField] Transform cellsParent;
+    [SerializeField] Camera cam;
 
-    private int width = 16;
-    private int height = 9;
+    [SerializeField] private int width = 32;
+    [SerializeField] private int height = 16;
     private float cellScale = 1f;
 
     private void CreateGrid()
@@ -25,7 +26,7 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        Camera.main.transform.position = new Vector3(
+        cam.transform.position = new Vector3(
             (float)width / 2 - 0.5f,
             (float)height / 2 - 0.5f,
             -10f

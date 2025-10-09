@@ -47,6 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cell: {fileID: 3610920322481844400}
   cellsParent: {fileID: 322528154116388763}
+  cam: {fileID: 706490170008969878, guid: 978cc75d3fa6fe9479f80110e6f2e64e, type: 3}
+  width: 32
+  height: 16
 --- !u!1 &7562464213254923316
 GameObject:
   m_ObjectHideFlags: 0

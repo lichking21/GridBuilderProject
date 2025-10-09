@@ -149,8 +149,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 72254123321352575, guid: 57371ed0785faf24bb69b34c6fa14760, type: 3}
-  gridManager: {fileID: 2696764026918480037, guid: 1340fb8cb66e0ef46afc581b602e8f6b, type: 3}
-  cameraPrefab: {fileID: 706490170008969878, guid: 978cc75d3fa6fe9479f80110e6f2e64e, type: 3}
+  gridManager: {fileID: 1708883197994701369, guid: 491878ef0287e394988bd05209b1b269, type: 3}
+  cam: {fileID: 4055917869509437080, guid: 978cc75d3fa6fe9479f80110e6f2e64e, type: 3}
 --- !u!4 &104926701
 Transform:
   m_ObjectHideFlags: 0
