@@ -151,17 +151,12 @@ MonoBehaviour:
   buildings:
   - building: {fileID: 2342316190541763245, guid: 51056a6a5dbc5d64f91639cfa47993ca, type: 3}
     buildingPreview: {fileID: 1091223473715607593, guid: 304abc0f76cf9f14684ce7f2714c5268, type: 3}
-    sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-    name: Circle
   - building: {fileID: 7426360396593235616, guid: 8639e331af71a154abcd1d0c99b841e9, type: 3}
     buildingPreview: {fileID: 1091223473715607593, guid: 3d58dd12bb9c31a4c8d4fa4cd4ad2216, type: 3}
-    sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-    name: Square
   - building: {fileID: 4654200610068477481, guid: 5f83b197117376c478096e9fcdc146d6, type: 3}
     buildingPreview: {fileID: 1091223473715607593, guid: 0bcc98192aa90894e825fc101c24081c, type: 3}
-    sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-    name: Triangle
   inputs: {fileID: -944628639613478452, guid: 739e317faaa40944d9382357364a8433, type: 3}
+  placeBtn: 0
 --- !u!4 &1603407330
 Transform:
   m_ObjectHideFlags: 0

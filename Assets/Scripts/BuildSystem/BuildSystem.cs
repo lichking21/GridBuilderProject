@@ -7,8 +7,7 @@ public class BuildSystem : MonoBehaviour
     public static BuildSystem Instance {  get; private set; }
 
     // Objects
-    [SerializeField] Building[] buildings;
-
+    [SerializeField] BuildingData[] buildings;
     private GameObject currBuilding;
     private GameObject currPreviewPrefab;
     private GameObject buildingPreviewObj;
@@ -16,15 +15,16 @@ public class BuildSystem : MonoBehaviour
     // Actions
     [SerializeField] private InputActionAsset inputs;
     private MouseRay mouseRay;
-
     private InputAction moveAction;
     private InputAction buildAction;
 
     // Variables
+    private Vector2 mousePos;
     private Vector2 currPreviewPos;
     private int cellStep = 1;
     private bool isUsingKeyboard;
-    public bool placeBtn = false;
+    private bool deleteBtn;
+    public bool placeBtn;
 
     // Events
     void OnEnable()
@@ -80,7 +80,7 @@ public class BuildSystem : MonoBehaviour
         buildingPreviewObj.transform.position = mousePos;
     }
 
-    // Building placement
+    // Buildings management
     private void SetBuilding(InputAction.CallbackContext context)
     {
         if (currBuilding == null) return;
@@ -98,9 +98,48 @@ public class BuildSystem : MonoBehaviour
             Quaternion.identity
         );
     }
+    
+    public void OnDeleteBtn()
+    {
+        deleteBtn = true;
+        buildingPreviewObj.SetActive(false);
 
-    // Select building
-    public void SwitchPlaceBtn() => placeBtn = !placeBtn;
+        placeBtn = false;
+        buildAction?.Disable();
+    }
+    private void DeleteBuilding()
+    {
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+
+            if (hit.collider != null)
+            {
+                var building = hit.collider.GetComponentInParent<Building>();
+
+                if (building != null)
+                {
+                    Destroy(building.gameObject);
+                    Debug.Log("Building DELETED");
+                }
+            }
+        }
+
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            deleteBtn = false;
+            if (buildingPreviewObj != null)
+                buildingPreviewObj.SetActive(true);
+        }
+    }
+
+    public void SwitchPlaceBtn()
+    {
+        placeBtn = !placeBtn;
+        if (!placeBtn) buildAction?.Disable();
+        else buildAction?.Enable();
+    }
+        
     public void SelectBuilding(int currBuildingIdx)
     {
         if (buildings == null || buildings.Length == 0)
@@ -116,7 +155,7 @@ public class BuildSystem : MonoBehaviour
         }
 
 
-        Building selectedBuilding = buildings[currBuildingIdx];
+        BuildingData selectedBuilding = buildings[currBuildingIdx];
 
         currBuilding = selectedBuilding.building;
         currPreviewPrefab = selectedBuilding.buildingPreview;
@@ -129,6 +168,8 @@ public class BuildSystem : MonoBehaviour
                 currPreviewPos,
                 Quaternion.identity
             );
+
+        buildingPreviewObj.SetActive(true);
     }
 
     void Awake()
@@ -153,7 +194,7 @@ public class BuildSystem : MonoBehaviour
     {
         Vector2 mouseScreen = Mouse.current.position.ReadValue();
         Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(new Vector3(mouseScreen.x, mouseScreen.y, 10f));
-        Vector2 mousePos = new Vector2(mouseWorld.x, mouseWorld.y);
+        mousePos = new Vector2(mouseWorld.x, mouseWorld.y);
 
         // switch preview move
         Vector2 mouseMove = Mouse.current.delta.ReadValue();
@@ -163,5 +204,9 @@ public class BuildSystem : MonoBehaviour
             MousePreviewDrag(mousePos);
             currPreviewPos = mousePos;
         }
+
+        // handle delete mode
+        if (deleteBtn)
+            DeleteBuilding();
     }
 }

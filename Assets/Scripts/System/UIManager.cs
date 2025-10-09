@@ -33,7 +33,6 @@ public class UIManager : MonoBehaviour
     {
         if (BuildSystem.Instance == null)
         {
-            Debug.Log("Couldn't find BuildSystem");
             return;
         }
 
@@ -41,8 +40,8 @@ public class UIManager : MonoBehaviour
         if (buildings.Length > 0) buildings[1].onClick.AddListener(() => TrySelectBuilding(1));
         if (buildings.Length > 0) buildings[2].onClick.AddListener(() => TrySelectBuilding(2));
 
-
         placeBtn.onClick.AddListener(() => BuildSystem.Instance.SwitchPlaceBtn());
+        deleteBtn.onClick.AddListener(() => BuildSystem.Instance.OnDeleteBtn());
 
         Debug.Log("ButtonListeners added");
     }
