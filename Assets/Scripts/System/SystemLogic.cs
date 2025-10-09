@@ -9,6 +9,7 @@ public class SystemLogic : MonoBehaviour
     [SerializeField] private GameObject uiManager;
     [SerializeField] private GameObject gridManager;
     [SerializeField] private GameObject cam;
+    [SerializeField] private GameObject saveManager;
 
     void Awake()
     {
@@ -46,10 +47,33 @@ public class SystemLogic : MonoBehaviour
         }
         else if (gridManager == null) Debug.Log("Camera prefab is not assigned");
         else Debug.Log("Camera exists or prefab is missing");
+
+        // Saves
+        if (FindAnyObjectByType<SaveManager>() == null && cam != null)
+        {
+            var saves = Instantiate(saveManager);
+
+            DontDestroyOnLoad(saves);
+            Debug.Log("SaveManager instantiated and moved to DontDestroyOnLoad");
+        }
+        else if (saveManager == null) Debug.Log("SaveManager prefab is not assigned");
+        else Debug.Log("SaveManager exists or prefab is missing");
     }
 
     void Start()
     {
         SceneManager.LoadSceneAsync(mainScene);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        BuildSystem.Instance.Load();
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnApplicationQuit()
+    {
+        BuildSystem.Instance.Save();      
     }
 }

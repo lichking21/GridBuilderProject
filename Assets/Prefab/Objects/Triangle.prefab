@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2507872108160729934}
   - component: {fileID: 6181161330777501098}
   m_Layer: 6
-  m_Name: Building3
+  m_Name: Triangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -151,6 +151,7 @@ MonoBehaviour:
   uiManager: {fileID: 72254123321352575, guid: 57371ed0785faf24bb69b34c6fa14760, type: 3}
   gridManager: {fileID: 1708883197994701369, guid: 491878ef0287e394988bd05209b1b269, type: 3}
   cam: {fileID: 4055917869509437080, guid: 978cc75d3fa6fe9479f80110e6f2e64e, type: 3}
+  saveManager: {fileID: 1694859627121367968, guid: b2562ce60251aac4ab23addd6516e5b5, type: 3}
 --- !u!4 &104926701
 Transform:
   m_ObjectHideFlags: 0

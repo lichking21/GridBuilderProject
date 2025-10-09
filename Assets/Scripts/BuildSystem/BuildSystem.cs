@@ -1,16 +1,21 @@
-using UnityEditor.Build.Content;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.InputSystem;
 
 public class BuildSystem : MonoBehaviour
 {
-    public static BuildSystem Instance {  get; private set; }
+    public static BuildSystem Instance { get; private set; }
 
     // Objects
     [SerializeField] BuildingData[] buildings;
     private GameObject currBuilding;
     private GameObject currPreviewPrefab;
     private GameObject buildingPreviewObj;
+
+    private List<BuildingSaveData> buildingSaves = new List<BuildingSaveData>();
 
     // Actions
     [SerializeField] private InputActionAsset inputs;
@@ -97,6 +102,13 @@ public class BuildSystem : MonoBehaviour
             placePos,
             Quaternion.identity
         );
+
+        BuildingSaveData data = new BuildingSaveData
+        {
+            id = currBuilding.name,
+            position = placePos
+        };
+        buildingSaves.Add(data);
     }
     
     public void OnDeleteBtn()
@@ -139,7 +151,7 @@ public class BuildSystem : MonoBehaviour
         if (!placeBtn) buildAction?.Disable();
         else buildAction?.Enable();
     }
-        
+
     public void SelectBuilding(int currBuildingIdx)
     {
         if (buildings == null || buildings.Length == 0)
@@ -170,6 +182,29 @@ public class BuildSystem : MonoBehaviour
             );
 
         buildingPreviewObj.SetActive(true);
+    }
+
+    // Save - Load builgns
+    public void Save()
+    {
+        SaveManager.Instance.SaveAll(buildingSaves);
+    }    
+
+    public void Load()
+    {
+        List<BuildingSaveData> loadedBuildings = SaveManager.Instance.LoadAll();
+
+        foreach(var b in loadedBuildings)
+        {
+            var buildingId = Array.Find(buildings, building => building.id == b.id);
+
+            if (buildingId.building != null)
+                Instantiate(
+                    buildingId.building,
+                    b.position,
+                    Quaternion.identity
+                );
+        }
     }
 
     void Awake()
